@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Meine Webseite</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; }
+    header, footer { background: #333; color: white; padding: 1em; text-align: center; }
+    nav a { margin: 0 10px; color: white; text-decoration: none; cursor: pointer; }
+    #content { padding: 2em; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Meine Webseite</h1>
+    <nav>
+      <a onclick="loadMarkdown('home.md')">Startseite</a>
+      <a onclick="loadMarkdown('blog1.md')">Blog 1</a>
+      <a onclick="loadMarkdown('blog2.md')">Blog 2</a>
+      <a onclick="loadMarkdown('kontakt.md')">Kontakt</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <p>Inhalt wird geladen...</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Meine Seite</p>
+  </footer>
+
+  <script src="marked.min.js"></script>
+  <script>
+    function loadMarkdown(file) {
+      fetch('content/' + file)
+        .then(response => response.text())
+        .then(text => {
+          document.getElementById('content').innerHTML = marked.parse(text);
+        })
+        .catch(error => {
+          document.getElementById('content').innerHTML = '<p>Fehler beim Laden.</p>';
+        });
+    }
+
+    // Standard-Inhalt beim Laden
+    window.onload = () => loadMarkdown('home.md');
+  </script>
+
+</body>
+</html>
